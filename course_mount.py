@@ -2,7 +2,7 @@ from pprint import pprint
 from os import path
 from sys import argv
 import subprocess
-# from tabulate import tabulate
+from tabulate import tabulate
 from exceptions import CourseDoesntExist, BashCommandExecutionError
 
 BASE_DIR = "/data/courses"
@@ -71,8 +71,8 @@ def list_courses():
   table_header = ['SNo.', 'Course', 'Mount']
   for i, course  in enumerate(COURSES):
     table_rows.append([i+1, course['name'], is_mounted(course['name'])])
-  # print(tabulate(tabular_data=table_rows, headers=table_header, tablefmt='orgtbl'))
-  pprint(table_rows)
+  print(tabulate(tabular_data=table_rows, headers=table_header, tablefmt='orgtbl'))
+  # pprint(table_rows)
 
 def mount_all():
   for course in COURSES:
@@ -90,12 +90,15 @@ def mount(course_name):
   destination_path = MOUNT_BASE_DIR + get_course_path(course_name)
   return_values = subprocess.run(['bindfs', '-p', '550', '-u', 'trainee', '-g', 'ftpaccess', source_path, destination_path])
   if return_values.returncode != 0:
-    print(return_values.stderr)
     raise BashCommandExecutionError
   print(f"successfully mounted {course_name}")
 
 def unmount(course_name):
-  print(f"unmount({course_name}) called")
+  destination_path = MOUNT_BASE_DIR + get_course_path(course_name)
+  return_values = subprocess.run(['umount', destination_path])
+  if return_values.returncode != 0:
+    raise BashCommandExecutionError
+  print(f"successfully unmounted {course_name}")
 
 args = argv[1:]
 if len(args) == 1:
