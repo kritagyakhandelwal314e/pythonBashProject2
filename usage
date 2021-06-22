@@ -1,0 +1,9 @@
+usage:
+	--------------------------------------------------------------------
+       			./course_mount.sh {-h|-l|-m|-u} [-c COURSE]
+	--------------------------------------------------------------------
+      	./course_mount.sh -h to print this help message
+       	./course_mount.sh -l to list all the courses
+       	./course_mount.sh -m -c [course] For mounting a given course
+       	./course_mount.sh -u -c [course] For unmounting a given course
+       	If course name is ommited all courses will be (un)mounted

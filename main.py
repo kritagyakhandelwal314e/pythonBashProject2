@@ -17,5 +17,8 @@ print(return_value.stderr)
 print(return_value.check_returncode())
 
 
-return_value = subprocess.run(["mount"])
+return_value = subprocess.run(["mount"], capture_output=True)
+print(str(return_value.stdout).split('\\n'))
+
+return_value = subprocess.run(['cat', 'lol'], capture_output=True)
 
